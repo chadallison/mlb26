@@ -87,10 +87,17 @@ team_records |>
 all_pbp = read_parquet("data/all_pbp.parquet")
 
 new_pbp = map_dfr(
-  end_games$game_pk[!end_games$game_pk %in% all_pbp$game_pk], ~ mlb_pbp_diff(
-    game_pk = .x,
-    start_timecode = "01012026_000000",
-    end_timecode = "12312026235959"
+  end_games$game_pk[!end_games$game_pk %in% all_pbp$game_pk],
+  ~ tryCatch(
+    mlb_pbp_diff(
+      game_pk = .x,
+      start_timecode = "01012026_000000",
+      end_timecode = "12312026_235959"
+    ),
+    error = function(e) {
+      message("Skipping game_pk ", .x, ": ", conditionMessage(e))
+      NULL
+    }
   )
 )
 
@@ -99,3 +106,29 @@ write_parquet(all_pbp, "data/all_pbp_temp.parquet")
 invisible(file.remove("data/all_pbp.parquet"))
 invisible(file.rename("data/all_pbp_temp.parquet", "data/all_pbp.parquet"))
 ```
+
+``` r
+team_rpg = all_results |>
+  group_by(team) |>
+  summarise(gp = n(),
+            off_rpg = mean(score),
+            def_rpg = mean(opp_score))
+
+avg_runs = mean(all_results$score)
+
+team_rpg |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(off_rpg, def_rpg)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3, max.overlaps = 30) +
+  scale_color_identity() +
+  geom_vline(xintercept = avg_runs, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = avg_runs, linetype = "dashed", alpha = 0.5) +
+  scale_x_continuous(breaks = seq(0, 100, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 100, by = 1)) +
+  labs(x = "Runs scored per game",
+       y = "Runs allowed per game",
+       title = glue("Runs scored/allowed per game by team as of {today_nice}"))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
