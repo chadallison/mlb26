@@ -129,7 +129,8 @@ all_results = end_games |>
 
 team_records = all_results |>
   group_by(team) |>
-  summarise(scored = sum(score),
+  summarise(gp = n(),
+            scored = sum(score),
             allowed = sum(opp_score),
             run_diff = sum(score) - sum(opp_score),
             wins = sum(is_win),
@@ -175,37 +176,6 @@ team_records |>
        x = NULL, y = "Run differential")
 ```
 
-
-```{r message = F, warning = F}
-# all_pbp = tibble()
-all_pbp = read_parquet("data/all_pbp.parquet")
-
-new_pbp = map_dfr(
-  end_games$game_pk[!end_games$game_pk %in% all_pbp$game_pk],
-  ~ tryCatch(
-    mlb_pbp_diff(
-      game_pk = .x,
-      start_timecode = "01012026_000000",
-      end_timecode = "12312026_235959"
-    ),
-    error = function(e) {
-      message("Skipping game_pk ", .x, ": ", conditionMessage(e))
-      NULL
-    }
-  )
-)
-
-all_pbp = bind_rows(all_pbp, new_pbp)
-write_parquet(all_pbp, "data/all_pbp_temp.parquet")
-invisible(file.remove("data/all_pbp.parquet"))
-invisible(file.rename("data/all_pbp_temp.parquet", "data/all_pbp.parquet"))
-```
-
-
-
-
-
-
 ```{r}
 team_rpg = all_results |>
   group_by(team) |>
@@ -230,6 +200,30 @@ team_rpg |>
        title = glue("Runs scored/allowed per game by team as of {today_nice}"))
 ```
 
+```{r}
+team_pythag = all_results |>
+  group_by(team) |>
+  summarise(scored = sum(score),
+            allowed = sum(opp_score)) |>
+  mutate(py = scored ^ 2 / (scored ^ 2 + allowed ^ 2),
+         py_500 = py - 0.5)
+
+team_pythag |>
+  mutate_if(is.numeric, round, 3) |>
+  mutate(py_lab = paste0(py * 100, "%")) |>
+  inner_join(teams_info, by = "team") |>
+  mutate(pl = ifelse(py_500 >= 0, py_lab, ""),
+         nl = ifelse(py_500 < 0, py_lab, "")) |>
+  ggplot(aes(reorder(team, py), py_500)) +
+  geom_col(aes(fill = hex)) +
+  geom_text(aes(label = pl), size = 3, hjust = -0.25) +
+  geom_text(aes(label = nl), size = 3, hjust = 1.25) +
+  coord_flip(ylim = c(min(team_pythag$py_500) * 1.1, max(team_pythag$py_500) * 1.1)) +
+  scale_fill_identity() +
+  labs(x = NULL, y = "Pythagorean win percentage vs. .500",
+       title = "Team Pythagorean Wins") +
+  scale_y_continuous(breaks = seq(-1, 1, by = 0.1), labels = scales::percent)
+```
 
 
 
