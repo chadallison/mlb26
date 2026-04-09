@@ -66,19 +66,21 @@ team_records |>
 ------------------------------------------------------------------------
 
 ``` r
-team_records |>
+plot_data = team_records |>
   mutate(run_diff_pg = round(run_diff / gp, 2)) |>
   arrange(desc(run_diff_pg), desc(scored), allowed, team) |>
   mutate(row_num = row_number(),
          pl = ifelse(run_diff_pg >= 0, run_diff_pg, ""),
-         nl = ifelse(run_diff_pg < 0, run_diff_pg, "")) |>
+         nl = ifelse(run_diff_pg < 0, run_diff_pg, ""))
+
+plot_data |>
   ggplot(aes(reorder(team, -row_num), run_diff_pg)) +
   geom_col(aes(fill = hex)) +
   geom_text(aes(label = pl), hjust = -0.25, size = 3) +
   geom_text(aes(label = nl), hjust = 1.25, size = 3) +
   scale_fill_identity() +
   scale_y_continuous(breaks = seq(-10, 10, by = 0.5)) +
-  coord_flip() +
+  coord_flip(ylim = c(min(plot_data$run_diff_pg) * 1.05, max(plot_data$run_diff_pg) * 1.05)) +
   labs(title = glue("Avg. Run Differentials as of {today_nice}"),
        x = NULL, y = "Avg. Run differential")
 ```
