@@ -1,7 +1,7 @@
 Chad’s 2026 MLB Report
 ================
 
-<!-- *Interested in the underlying code that builds this report?* Check it out on GitHub: [mlb25](https://github.com/chadallison/mlb25){target="_blank"} -->
+<!-- *Interested in the underlying code that builds this report?* Check it out on GitHub: [mlb26](https://github.com/chadallison/mlb26){target="_blank"} -->
 
 ------------------------------------------------------------------------
 
