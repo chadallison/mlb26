@@ -58,7 +58,10 @@ team_records |>
   scale_fill_identity() +
   labs(title = glue("Team Standings as of {today_nice}"),
        x = NULL, y = "Team win pct. over/under .500") +
-  scale_y_continuous(breaks = seq(-0.5, 0.5, by = 0.1), labels = scales::percent)
+  scale_y_continuous(
+    breaks = seq(-0.5, 0.5, by = 0.1), labels = scales::percent,
+    expand = expansion(mult = 0.1)
+  )
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
@@ -218,3 +221,30 @@ plot_data |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+all_results |>
+  mutate(sc = sqrt(score),
+         al = sqrt(opp_score)) |>
+  group_by(team) |>
+  summarise(sc = sum(sc),
+            al = sum(al)) |>
+  mutate(py = sc ^ 2 / (sc ^ 2 + al ^ 2),
+         wins = round(py * 162, 1)) |>
+  arrange(desc(py))
+```
+
+    ## # A tibble: 30 × 5
+    ##    team                   sc    al    py  wins
+    ##    <chr>               <dbl> <dbl> <dbl> <dbl>
+    ##  1 Atlanta Braves       30.5  21.9 0.660 107  
+    ##  2 New York Yankees     27.2  19.8 0.655 106  
+    ##  3 Los Angeles Dodgers  33.6  25.8 0.629 102. 
+    ##  4 San Diego Padres     30.3  26.3 0.569  92.2
+    ##  5 Milwaukee Brewers    29.3  26.9 0.543  88  
+    ##  6 Pittsburgh Pirates   26.0  24.6 0.528  85.6
+    ##  7 Chicago Cubs         25.4  24.4 0.520  84.2
+    ##  8 Boston Red Sox       26.4  25.4 0.519  84  
+    ##  9 Los Angeles Angels   29.1  28.2 0.516  83.6
+    ## 10 Minnesota Twins      30.7  30.0 0.512  82.9
+    ## # ℹ 20 more rows

@@ -309,6 +309,17 @@ plot_data |>
 
 
 
+```{r}
+all_results |>
+  mutate(sc = sqrt(score),
+         al = sqrt(opp_score)) |>
+  group_by(team) |>
+  summarise(sc = sum(sc),
+            al = sum(al)) |>
+  mutate(py = sc ^ 2 / (sc ^ 2 + al ^ 2),
+         wins = round(py * 162, 1)) |>
+  arrange(desc(py))
+```
 
 
 
