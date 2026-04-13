@@ -224,6 +224,10 @@ plot_data |>
 
 ``` r
 all_results |>
+  mutate(game_num = row_number(),
+         gp = max(game_num),
+         .by = "team") |>
+  filter(game_num > gp - 7) |>
   mutate(sc = sqrt(score),
          al = sqrt(opp_score)) |>
   group_by(team) |>
@@ -235,16 +239,16 @@ all_results |>
 ```
 
     ## # A tibble: 30 × 5
-    ##    team                   sc    al    py  wins
-    ##    <chr>               <dbl> <dbl> <dbl> <dbl>
-    ##  1 Atlanta Braves       30.5  21.9 0.660 107  
-    ##  2 New York Yankees     27.2  19.8 0.655 106  
-    ##  3 Los Angeles Dodgers  33.6  25.8 0.629 102. 
-    ##  4 San Diego Padres     30.3  26.3 0.569  92.2
-    ##  5 Milwaukee Brewers    29.3  26.9 0.543  88  
-    ##  6 Pittsburgh Pirates   26.0  24.6 0.528  85.6
-    ##  7 Chicago Cubs         25.4  24.4 0.520  84.2
-    ##  8 Boston Red Sox       26.4  25.4 0.519  84  
-    ##  9 Los Angeles Angels   29.1  28.2 0.516  83.6
-    ## 10 Minnesota Twins      30.7  30.0 0.512  82.9
+    ##    team                    sc    al    py  wins
+    ##    <chr>                <dbl> <dbl> <dbl> <dbl>
+    ##  1 Athletics             14.2  9.26 0.703 114. 
+    ##  2 San Diego Padres      16.6 10.9  0.700 113. 
+    ##  3 Boston Red Sox        15.9 11.5  0.656 106. 
+    ##  4 Minnesota Twins       16.7 13.2  0.616  99.8
+    ##  5 Los Angeles Dodgers   17.0 13.5  0.614  99.5
+    ##  6 Arizona Diamondbacks  15.4 12.4  0.609  98.6
+    ##  7 Atlanta Braves        16.0 13.4  0.589  95.4
+    ##  8 Texas Rangers         12.5 10.5  0.585  94.8
+    ##  9 San Francisco Giants  13.4 11.3  0.583  94.4
+    ## 10 Detroit Tigers        13.3 11.6  0.567  91.8
     ## # ℹ 20 more rows

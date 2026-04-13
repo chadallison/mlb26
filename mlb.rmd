@@ -311,6 +311,10 @@ plot_data |>
 
 ```{r}
 all_results |>
+  mutate(game_num = row_number(),
+         gp = max(game_num),
+         .by = "team") |>
+  filter(game_num > gp - 7) |>
   mutate(sc = sqrt(score),
          al = sqrt(opp_score)) |>
   group_by(team) |>
