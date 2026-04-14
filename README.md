@@ -227,7 +227,7 @@ all_results |>
   mutate(game_num = row_number(),
          gp = max(game_num),
          .by = "team") |>
-  filter(game_num > gp - 7) |>
+  # filter(game_num > gp - 10) |>
   mutate(sc = sqrt(score),
          al = sqrt(opp_score)) |>
   group_by(team) |>
@@ -239,16 +239,41 @@ all_results |>
 ```
 
     ## # A tibble: 30 × 5
-    ##    team                    sc    al    py  wins
-    ##    <chr>                <dbl> <dbl> <dbl> <dbl>
-    ##  1 Athletics             14.2  9.26 0.703 114. 
-    ##  2 San Diego Padres      16.6 10.9  0.700 113. 
-    ##  3 Boston Red Sox        15.9 11.5  0.656 106. 
-    ##  4 Minnesota Twins       16.7 13.2  0.616  99.8
-    ##  5 Los Angeles Dodgers   17.0 13.5  0.614  99.5
-    ##  6 Arizona Diamondbacks  15.4 12.4  0.609  98.6
-    ##  7 Atlanta Braves        16.0 13.4  0.589  95.4
-    ##  8 Texas Rangers         12.5 10.5  0.585  94.8
-    ##  9 San Francisco Giants  13.4 11.3  0.583  94.4
-    ## 10 Detroit Tigers        13.3 11.6  0.567  91.8
+    ##    team                   sc    al    py  wins
+    ##    <chr>               <dbl> <dbl> <dbl> <dbl>
+    ##  1 Atlanta Braves       36.1  26.1 0.658 107. 
+    ##  2 Los Angeles Dodgers  37.0  28.0 0.636 103  
+    ##  3 New York Yankees     32.6  25.2 0.626 101. 
+    ##  4 San Diego Padres     32.9  27.8 0.585  94.7
+    ##  5 Texas Rangers        30.6  27.6 0.552  89.4
+    ##  6 Pittsburgh Pirates   32.4  29.4 0.548  88.8
+    ##  7 Minnesota Twins      37.1  33.8 0.546  88.5
+    ##  8 Milwaukee Brewers    31.8  29.7 0.534  86.4
+    ##  9 Detroit Tigers       26.8  25.1 0.533  86.3
+    ## 10 Seattle Mariners     30.0  28.6 0.524  84.8
     ## # ℹ 20 more rows
+
+``` r
+all_results |>
+  mutate(diff = score - opp_score,
+         scaled = scale(diff)) |>
+  group_by(team) |>
+  summarise(score = sum(scaled),
+            avg_score = mean(scaled)) |>
+  arrange(desc(avg_score)) |>
+  mutate_if(is.numeric, round, 3) |>
+  mutate(pl = ifelse(avg_score >= 0, avg_score, ""),
+         nl = ifelse(avg_score < 0, avg_score, "")) |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(reorder(team, avg_score), avg_score)) +
+  geom_col(aes(fill = hex)) +
+  scale_fill_identity() +
+  coord_flip() +
+  scale_y_continuous(breaks = seq(-3, 3, by = 0.1), expand = expansion(mult = 0.1)) +
+  geom_text(aes(label = pl), size = 3, hjust = -0.25) +
+  geom_text(aes(label = nl), size = 3, hjust = 1.25) +
+  labs(x = NULL, y = "Avg. Rating",
+       title = glue("Scaled Team Ratings as of {today_nice}"))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->

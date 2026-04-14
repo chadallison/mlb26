@@ -314,7 +314,7 @@ all_results |>
   mutate(game_num = row_number(),
          gp = max(game_num),
          .by = "team") |>
-  filter(game_num > gp - 7) |>
+  # filter(game_num > gp - 10) |>
   mutate(sc = sqrt(score),
          al = sqrt(opp_score)) |>
   group_by(team) |>
@@ -326,6 +326,28 @@ all_results |>
 ```
 
 
+```{r}
+all_results |>
+  mutate(diff = score - opp_score,
+         scaled = scale(diff)) |>
+  group_by(team) |>
+  summarise(score = sum(scaled),
+            avg_score = mean(scaled)) |>
+  arrange(desc(avg_score)) |>
+  mutate_if(is.numeric, round, 3) |>
+  mutate(pl = ifelse(avg_score >= 0, avg_score, ""),
+         nl = ifelse(avg_score < 0, avg_score, "")) |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(reorder(team, avg_score), avg_score)) +
+  geom_col(aes(fill = hex)) +
+  scale_fill_identity() +
+  coord_flip() +
+  scale_y_continuous(breaks = seq(-3, 3, by = 0.1), expand = expansion(mult = 0.1)) +
+  geom_text(aes(label = pl), size = 3, hjust = -0.25) +
+  geom_text(aes(label = nl), size = 3, hjust = 1.25) +
+  labs(x = NULL, y = "Avg. Rating",
+       title = glue("Scaled Team Ratings as of {today_nice}"))
+```
 
 
 
