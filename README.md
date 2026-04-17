@@ -243,14 +243,14 @@ all_results |>
     ##    <chr>               <dbl> <dbl> <dbl> <dbl>
     ##  1 Atlanta Braves       41.0  30.0 0.651 106. 
     ##  2 Los Angeles Dodgers  41.2  30.4 0.648 105. 
-    ##  3 San Diego Padres     37.6  31.2 0.592  95.9
-    ##  4 New York Yankees     35.8  29.8 0.590  95.6
+    ##  3 San Diego Padres     39.8  32.6 0.598  96.9
+    ##  4 New York Yankees     37.8  33.1 0.565  91.6
     ##  5 Minnesota Twins      41.8  36.8 0.563  91.2
-    ##  6 Pittsburgh Pirates   35.9  31.7 0.562  91  
-    ##  7 Chicago Cubs         37.2  33.9 0.546  88.5
-    ##  8 Detroit Tigers       29.6  27.1 0.545  88.2
-    ##  9 Texas Rangers        33.9  31.5 0.537  86.9
-    ## 10 Los Angeles Angels   39.9  37.2 0.535  86.7
+    ##  6 Pittsburgh Pirates   38.5  34.5 0.555  89.8
+    ##  7 Los Angeles Angels   43.2  39.2 0.549  88.9
+    ##  8 Chicago Cubs         37.2  33.9 0.546  88.5
+    ##  9 Detroit Tigers       32.8  30.1 0.543  87.9
+    ## 10 Texas Rangers        36.9  33.9 0.542  87.7
     ## # ℹ 20 more rows
 
 ``` r
