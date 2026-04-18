@@ -241,16 +241,16 @@ all_results |>
     ## # A tibble: 30 × 5
     ##    team                   sc    al    py  wins
     ##    <chr>               <dbl> <dbl> <dbl> <dbl>
-    ##  1 Atlanta Braves       41.0  30.0 0.651 106. 
-    ##  2 Los Angeles Dodgers  41.2  30.4 0.648 105. 
-    ##  3 San Diego Padres     39.8  32.6 0.598  96.9
-    ##  4 New York Yankees     37.8  33.1 0.565  91.6
-    ##  5 Minnesota Twins      41.8  36.8 0.563  91.2
-    ##  6 Pittsburgh Pirates   38.5  34.5 0.555  89.8
-    ##  7 Los Angeles Angels   43.2  39.2 0.549  88.9
-    ##  8 Chicago Cubs         37.2  33.9 0.546  88.5
-    ##  9 Detroit Tigers       32.8  30.1 0.543  87.9
-    ## 10 Texas Rangers        36.9  33.9 0.542  87.7
+    ##  1 Atlanta Braves       44.0  30.0 0.683 111. 
+    ##  2 Los Angeles Dodgers  43.9  31.4 0.661 107. 
+    ##  3 Los Angeles Angels   46.0  39.2 0.580  94  
+    ##  4 Texas Rangers        39.1  33.9 0.571  92.4
+    ##  5 New York Yankees     39.8  34.6 0.570  92.3
+    ##  6 Pittsburgh Pirates   40.7  35.5 0.568  92.1
+    ##  7 Chicago Cubs         40.6  35.9 0.562  91  
+    ##  8 San Diego Padres     39.8  35.4 0.558  90.3
+    ##  9 Minnesota Twins      42.8  38.3 0.556  90.1
+    ## 10 Milwaukee Brewers    39.9  37.0 0.538  87.2
     ## # ℹ 20 more rows
 
 ``` r
