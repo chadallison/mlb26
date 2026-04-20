@@ -241,16 +241,16 @@ all_results |>
     ## # A tibble: 30 × 5
     ##    team                   sc    al    py  wins
     ##    <chr>               <dbl> <dbl> <dbl> <dbl>
-    ##  1 Atlanta Braves       45.8  31.0 0.685 111  
-    ##  2 Los Angeles Dodgers  45.6  33.4 0.651 105. 
-    ##  3 New York Yankees     43.4  36.6 0.585  94.8
-    ##  4 San Diego Padres     41.8  36.4 0.568  92  
-    ##  5 Chicago Cubs         42.6  37.3 0.567  91.8
-    ##  6 Los Angeles Angels   47.0  41.2 0.566  91.7
-    ##  7 Pittsburgh Pirates   43.4  38.3 0.562  91  
-    ##  8 Texas Rangers        40.8  36.6 0.555  89.9
-    ##  9 Minnesota Twins      44.8  40.5 0.551  89.2
-    ## 10 Milwaukee Brewers    42.1  38.4 0.547  88.6
+    ##  1 Atlanta Braves       47.8  32.4 0.684 111. 
+    ##  2 Los Angeles Dodgers  48.0  36.4 0.635 103. 
+    ##  3 New York Yankees     46.0  36.6 0.613  99.4
+    ##  4 San Diego Padres     43.2  37.4 0.571  92.5
+    ##  5 Chicago Cubs         44.1  38.3 0.570  92.3
+    ##  6 Pittsburgh Pirates   45.8  40.1 0.567  91.8
+    ##  7 Los Angeles Angels   48.0  42.6 0.560  90.7
+    ##  8 Detroit Tigers       39.7  36.3 0.544  88.1
+    ##  9 Texas Rangers        42.3  38.8 0.542  87.9
+    ## 10 Minnesota Twins      46.8  43.1 0.541  87.6
     ## # ℹ 20 more rows
 
 ``` r
@@ -277,3 +277,52 @@ all_results |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+library(ggrepel)
+
+all_results |>
+  mutate(game_num = row_number(),
+         cum_diff = cumsum(score - opp_score),
+         .by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, cum_diff)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  geom_text_repel(
+    data = ~ slice_max(.x, game_num, by = team),
+    aes(label = abb, col = hex),
+    nudge_x = 2,
+    direction = "y",
+    hjust = 0,
+    size = 3,
+    segment.size = 0,
+    min.segment.length = 100
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.25) +
+  scale_color_identity() +
+  facet_wrap(vars(division)) +
+  coord_cartesian(clip = "off") +
+  theme(plot.margin = margin(5, 30, 5, 5))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+team_records |>
+  mutate(avg_diff = run_diff / gp) |>
+  ggplot(aes(avg_diff, win_pct)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  scale_color_identity() +
+  geom_line(stat = "smooth", method = "lm", formula = y ~ x, se = F, linetype = "dashed", alpha = 0.5) +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3, max.overlaps = 30) +
+  scale_x_continuous(breaks = seq(-5, 5, by = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.05), labels = scales::percent) +
+  geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  labs(x = "Avg. run differential",
+       y = "Win percentage",
+       title = glue("Win percentage by run differential as of {today_nice}"))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
