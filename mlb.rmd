@@ -4,7 +4,7 @@ output: github_document
 knit: (function(input, ...) { rmarkdown::render(input, output_file = "README.md", envir = globalenv()) })
 ---
 
-<!-- *Interested in the underlying code that builds this report?* Check it out on GitHub: [mlb26](https://github.com/chadallison/mlb26){target="_blank"} -->
+*Interested in the underlying code that builds this report?* Check it out on GitHub: [mlb26](https://github.com/chadallison/mlb26){target="_blank"}
 
 ___
 
@@ -39,6 +39,7 @@ library(glue)
 library(zoo)
 library(baseballr)
 library(arrow)
+library(ggrepel)
 
 theme_custom = theme_avatar() +
   theme(plot.title = element_text(hjust = 0.5),
@@ -107,7 +108,7 @@ better_date = function(dt) {
 today_nice = better_date(Sys.Date())
 ```
 
-```{r}
+```{r echo = F}
 all_results = end_games |>
   transmute(
     date, game_pk,
@@ -139,7 +140,9 @@ team_records = all_results |>
   inner_join(teams_info, by = "team")
 ```
 
-```{r}
+### Team Standings
+
+```{r echo = F}
 team_records |>
   arrange(desc(win_pct), desc(run_diff), desc(scored), allowed, team) |>
   mutate(pct_vs_500 = win_pct - 0.5,
@@ -162,7 +165,9 @@ team_records |>
 
 ___
 
-```{r}
+### Run Differentials
+
+```{r echo = F}
 plot_data = team_records |>
   mutate(run_diff_pg = round(run_diff / gp, 2)) |>
   arrange(desc(run_diff_pg), desc(scored), allowed, team) |>
@@ -182,7 +187,11 @@ plot_data |>
        x = NULL, y = "Avg. Run differential")
 ```
 
-```{r}
+___
+
+### Runs Scored and Allowed per Game
+
+```{r echo = F}
 team_rpg = all_results |>
   group_by(team) |>
   summarise(gp = n(),
@@ -206,7 +215,11 @@ team_rpg |>
        title = glue("Runs scored/allowed per game by team as of {today_nice}"))
 ```
 
-```{r}
+___
+
+### Pythagorean Wins
+
+```{r echo = F}
 team_pythag = all_results |>
   group_by(team) |>
   summarise(scored = sum(score),
@@ -231,7 +244,11 @@ team_pythag |>
   scale_y_continuous(breaks = seq(-1, 1, by = 0.1), labels = scales::percent)
 ```
 
-```{r}
+___
+
+### Adjusted Run Differentials
+
+```{r echo = F}
 plot_data = all_results |>
   mutate(raw_diff = score - opp_score,
          diff_sign = sign(raw_diff),
@@ -260,7 +277,11 @@ plot_data |>
   scale_y_continuous(breaks = seq(-3, 3, by = 0.5))
 ```
 
-```{r}
+___
+
+### Team NPR
+
+```{r echo = F}
 end_with_npr = end_games |>
   inner_join(team_rpg, by = c("home_team" = "team")) |>
   rename(home_gp = gp, home_off_rpg = off_rpg, home_def_rpg = def_rpg) |>
@@ -306,26 +327,47 @@ plot_data |>
   scale_y_continuous(breaks = seq(-5, 5, by = 0.5))
 ```
 
+___
 
+### Adjusted Pythagorean Wins
 
-```{r}
+```{r echo = F}
 all_results |>
   mutate(game_num = row_number(),
          gp = max(game_num),
          .by = "team") |>
-  # filter(game_num > gp - 10) |>
   mutate(sc = sqrt(score),
          al = sqrt(opp_score)) |>
   group_by(team) |>
   summarise(sc = sum(sc),
             al = sum(al)) |>
   mutate(py = sc ^ 2 / (sc ^ 2 + al ^ 2),
+         py_lab = paste0(round(py * 100, 1), "%"),
+         pl = ifelse(py >= 0.5, py_lab, ""),
+         nl = ifelse(py < 0.5, py_lab, ""),
+         py_over_500 = py - 0.5,
          wins = round(py * 162, 1)) |>
-  arrange(desc(py))
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(reorder(team, py_over_500), py_over_500)) +
+  geom_col(aes(fill = hex)) +
+  scale_fill_identity() +
+  coord_flip() +
+  scale_y_continuous(
+    breaks = seq(-1, 1, by = 0.05),
+    labels = scales::percent,
+    expand = expansion(mult = 0.1)
+  ) +
+  labs(x = NULL, y = "Adj. Pythagorean Win Pct. Over .500",
+       title = glue("Adj. Pythagorean Wins as of {today_nice}")) +
+  geom_text(aes(label = pl), hjust = -0.25, size = 3) +
+  geom_text(aes(label = nl), hjust = 1.25, size = 3)
 ```
 
+___
 
-```{r}
+### Scaled Team Ratings
+
+```{r echo = F}
 all_results |>
   mutate(diff = score - opp_score,
          scaled = scale(diff)) |>
@@ -348,10 +390,11 @@ all_results |>
        title = glue("Scaled Team Ratings as of {today_nice}"))
 ```
 
+___
 
-```{r}
-library(ggrepel)
+### Cumulative Run Differentials
 
+```{r echo = F}
 all_results |>
   mutate(game_num = row_number(),
          cum_diff = cumsum(score - opp_score),
@@ -377,8 +420,11 @@ all_results |>
   theme(plot.margin = margin(5, 30, 5, 5))
 ```
 
+___
 
-```{r}
+### Win Percentage by Run Differential
+
+```{r echo = F}
 team_records |>
   mutate(avg_diff = run_diff / gp) |>
   ggplot(aes(avg_diff, win_pct)) +
@@ -395,8 +441,11 @@ team_records |>
        title = glue("Win percentage by run differential as of {today_nice}"))
 ```
 
+___
 
-```{r}
+### One Run Games
+
+```{r echo = F}
 all_results |>
   mutate(diff = score - opp_score,
          abs_diff = abs(diff)) |>
@@ -417,6 +466,8 @@ all_results |>
   scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
   geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5)
 ```
+
+___
 
 
 
