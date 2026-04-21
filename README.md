@@ -241,13 +241,13 @@ all_results |>
     ## # A tibble: 30 × 5
     ##    team                   sc    al    py  wins
     ##    <chr>               <dbl> <dbl> <dbl> <dbl>
-    ##  1 Atlanta Braves       47.8  32.4 0.684 111. 
-    ##  2 Los Angeles Dodgers  48.0  36.4 0.635 103. 
+    ##  1 Atlanta Braves       50.8  34.4 0.685 111. 
+    ##  2 Los Angeles Dodgers  51.5  38.1 0.646 105. 
     ##  3 New York Yankees     46.0  36.6 0.613  99.4
-    ##  4 San Diego Padres     43.2  37.4 0.571  92.5
-    ##  5 Chicago Cubs         44.1  38.3 0.570  92.3
+    ##  4 Chicago Cubs         46.3  39.3 0.581  94.2
+    ##  5 San Diego Padres     43.2  37.4 0.571  92.5
     ##  6 Pittsburgh Pirates   45.8  40.1 0.567  91.8
-    ##  7 Los Angeles Angels   48.0  42.6 0.560  90.7
+    ##  7 Los Angeles Angels   49.4  44.8 0.549  88.9
     ##  8 Detroit Tigers       39.7  36.3 0.544  88.1
     ##  9 Texas Rangers        42.3  38.8 0.542  87.9
     ## 10 Minnesota Twins      46.8  43.1 0.541  87.6
@@ -326,3 +326,27 @@ team_records |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+all_results |>
+  mutate(diff = score - opp_score,
+         abs_diff = abs(diff)) |>
+  filter(abs_diff == 1) |>
+  group_by(team) |>
+  summarise(gp = n(),
+            wins = sum(is_win),
+            pct = mean(is_win)) |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(gp, pct)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  scale_color_identity() +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3, max.overlaps = 30) +
+  labs(x = "One-Run Games Played",
+       y = "Win Percentage in One-Run Games",
+       title = glue("Team Performance in One-Run Games as of {today_nice}")) +
+  scale_x_continuous(breaks = seq(0, 162, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
