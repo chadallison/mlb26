@@ -9,7 +9,18 @@ out on GitHub:
 
 ### Contents
 
-Nothing yet!
+- [Team Standings](#team-standings)
+- [Run Differentials](#run-differentials)
+- [Runs Scored and Allowed per Game](#runs-scored-and-allowed-per-game)
+- [Pythagorean Wins](#pythagorean-wins)
+- [Adjusted Run Differentials](#adjusted-run-differentials)
+- [Team NPR](#team-npr)
+- [Adjusted Pythagorean Wins](#adjusted-pythagorean-wins)
+- [Scaled Team Ratings](#scaled-team-ratings)
+- [Cumulative Run Differentials](#cumulative-run-differentials)
+- [Win Percentage by Run
+  Differential](#win-percentage-by-run-differential)
+- [One Run Games](#one-run-games)
 
 ------------------------------------------------------------------------
 

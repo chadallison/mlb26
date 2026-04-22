@@ -10,7 +10,17 @@ ___
 
 ### Contents
 
-Nothing yet!
+- [Team Standings]
+- [Run Differentials]
+- [Runs Scored and Allowed per Game]
+- [Pythagorean Wins]
+- [Adjusted Run Differentials]
+- [Team NPR]
+- [Adjusted Pythagorean Wins]
+- [Scaled Team Ratings]
+- [Cumulative Run Differentials]
+- [Win Percentage by Run Differential]
+- [One Run Games]
 
 ___
 
