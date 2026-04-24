@@ -89,3 +89,25 @@ out on GitHub:
 ![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 ------------------------------------------------------------------------
+
+``` r
+window_size = 7
+
+all_results |>
+  arrange(team, date, game_pk) |>
+  mutate(roll_score = rollapply(score, width = window_size, align = "right", FUN = "sum", fill = NA),
+         roll_allow = rollapply(opp_score, width = window_size, align = "right", FUN = "sum", fill = NA),
+         .by = "team") |>
+  filter(!is.na(roll_score)) |>
+  mutate(game_num = row_number(), .by = "team") |>
+  mutate(roll_py = roll_score ^ 2 / (roll_score ^ 2 + roll_allow ^ 2)) |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, roll_py)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  scale_color_identity() +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  facet_wrap(vars(division))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
