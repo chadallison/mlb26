@@ -43,7 +43,6 @@ knitr::knit_hooks$set(source = function(x, options) {
 
 ```{r message = F, warning = F, include = F, fold_code = T}
 library(tidyverse)
-library(tvthemes)
 library(janitor)
 library(glue)
 library(zoo)
@@ -51,14 +50,35 @@ library(baseballr)
 library(arrow)
 library(ggrepel)
 
-theme_custom = theme_avatar() +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5, size = 9, vjust = 2.5, face = "italic"),
-        plot.caption = element_text(face = "italic"),
-        panel.grid.major = element_line(linewidth = 0.5, colour = "#DFDAD1"),
-        panel.grid.minor = element_line(linewidth = 0.5, colour = "#DFDAD1"))
+theme_avatar_custom <- function() {
+  ggplot2::theme_minimal() +
+    theme(
+      # background
+      plot.background  = element_rect(color = NA, fill = "#ece5d3"),
+      panel.background = element_rect(color = NA, fill = "#ece5d3"),
+      # grid
+      panel.grid.major = element_line(linewidth = 0.5, colour = "#DFDAD1"),
+      panel.grid.minor = element_line(linewidth = 0.5, colour = "#DFDAD1"),
+      # text
+      plot.title    = element_text(hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5, size = 9, vjust = 2.5, face = "italic"),
+      plot.caption  = element_text(face = "italic"),
+      axis.text     = element_text(size = 8, color = "grey20"),
+      axis.title    = element_text(size = 10, color = "grey20"),
+      # legend
+      legend.position   = "bottom",
+      legend.text       = element_text(size = 8, color = "grey20"),
+      legend.title      = element_text(size = 10, color = "grey20"),
+      legend.key        = element_rect(colour = "black", linetype = "solid", linewidth = 1.25),
+      legend.background = element_rect(color = "black", fill = "#ece5d3", linetype = "solid"),
+      # ticks off (default behavior of theme_avatar)
+      axis.ticks   = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+}
 
-theme_set(theme_custom)
+theme_set(theme_avatar_custom())
 ```
 
 ```{r message = F, warning = F, include = F}
