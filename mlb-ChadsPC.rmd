@@ -50,30 +50,30 @@ library(baseballr)
 library(arrow)
 library(ggrepel)
 
-theme_avatar_custom <- function() {
+theme_custom <- function() {
   ggplot2::theme_minimal() +
     theme(
-      plot.background  = element_rect(color = NA, fill = "#ece5d3"),
+      plot.background = element_rect(color = NA, fill = "#ece5d3"),
       panel.background = element_rect(color = NA, fill = "#ece5d3"),
       panel.grid.major = element_line(linewidth = 0.5, colour = "#DFDAD1"),
       panel.grid.minor = element_line(linewidth = 0.5, colour = "#DFDAD1"),
-      plot.title    = element_text(hjust = 0.5),
+      plot.title = element_text(hjust = 0.5),
       plot.subtitle = element_text(hjust = 0.5, size = 9, vjust = 2.5, face = "italic"),
-      plot.caption  = element_text(face = "italic"),
-      axis.text     = element_text(size = 8, color = "grey20"),
-      axis.title    = element_text(size = 10, color = "grey20"),
-      legend.position   = "bottom",
-      legend.text       = element_text(size = 8, color = "grey20"),
-      legend.title      = element_text(size = 10, color = "grey20"),
-      legend.key        = element_rect(colour = "black", linetype = "solid", linewidth = 1.25),
+      plot.caption = element_text(face = "italic"),
+      axis.text = element_text(size = 8, color = "grey20"),
+      axis.title = element_text(size = 10, color = "grey20"),
+      legend.position = "bottom",
+      legend.text = element_text(size = 8, color = "grey20"),
+      legend.title = element_text(size = 10, color = "grey20"),
+      legend.key = element_rect(colour = "black", linetype = "solid", linewidth = 1.25),
       legend.background = element_rect(color = "black", fill = "#ece5d3", linetype = "solid"),
-      axis.ticks   = element_blank(),
+      axis.ticks = element_blank(),
       axis.ticks.x = element_blank(),
       axis.ticks.y = element_blank()
     )
 }
 
-theme_set(theme_avatar_custom())
+theme_set(theme_custom())
 ```
 
 ```{r message = F, warning = F, include = F}
@@ -513,7 +513,7 @@ all_results |>
   facet_wrap(vars(division))
 ```
 
-
+___
 
 
 
