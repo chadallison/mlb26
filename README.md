@@ -111,3 +111,23 @@ all_results |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+``` r
+window_size = 7
+
+all_results |>
+  arrange(team, date, game_pk) |>
+  mutate(diff_sr = sqrt(score) - sqrt(opp_score)) |>
+  mutate(game_num = row_number(),
+         roll_diff = rollapply(diff_sr, FUN = "sum", width = window_size, align = "right", partial = T),
+         .by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, roll_diff)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.25) +
+  scale_color_identity() +
+  facet_wrap(vars(division))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
