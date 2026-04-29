@@ -131,3 +131,29 @@ all_results |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+all_res_npr = end_with_npr |>
+  select(date, game_pk, team = home_team, opp = away_team, off_npr = home_off_npr, def_npr = home_def_npr) |>
+  bind_rows(
+    end_with_npr |>
+      select(date, game_pk, team = away_team, opp = home_team, off_npr = away_off_npr, def_npr = away_def_npr)
+  ) |>
+  arrange(team, date, game_pk)
+
+all_res_npr |>
+  mutate(game_num = row_number(),
+         roll_off = rollapply(off_npr, FUN = "sum", width = window_size, align = "right", partial = T),
+         roll_def = rollapply(def_npr, FUN = "sum", width = window_size, align = "right", partial = T),
+         roll_npr = roll_off + roll_def,
+         .by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, roll_npr)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  scale_color_identity() +
+  facet_wrap(vars(division)) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->

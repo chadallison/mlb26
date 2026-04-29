@@ -77,20 +77,20 @@ theme_set(theme_custom())
 ```
 
 ```{r message = F, warning = F, include = F}
-# end_games_raw = mlb_schedule(season = 2026, level_ids = "1")
-# 
-# end_games = end_games_raw |>
-#   filter(series_description == "Regular Season" & status_detailed_state == "Final") |>
-#   select(date, game_pk, away_score = teams_away_score, away_team = teams_away_team_name,
-#          home_team = teams_home_team_name, home_score = teams_home_score) |>
-#   filter(!is.na(away_score) & !is.na(home_score)) |>
-#   mutate(win_team = ifelse(home_score > away_score, home_team, away_team),
-#          lose_team = ifelse(home_score > away_score, away_team, home_team),
-#          win_score = ifelse(home_score > away_score, home_score, away_score),
-#          lose_score = ifelse(home_score > away_score, away_score, home_score))
+end_games_raw = mlb_schedule(season = 2026, level_ids = "1")
+
+end_games = end_games_raw |>
+  filter(series_description == "Regular Season" & status_detailed_state == "Final") |>
+  select(date, game_pk, away_score = teams_away_score, away_team = teams_away_team_name,
+         home_team = teams_home_team_name, home_score = teams_home_score) |>
+  filter(!is.na(away_score) & !is.na(home_score)) |>
+  mutate(win_team = ifelse(home_score > away_score, home_team, away_team),
+         lose_team = ifelse(home_score > away_score, away_team, home_team),
+         win_score = ifelse(home_score > away_score, home_score, away_score),
+         lose_score = ifelse(home_score > away_score, away_score, home_score))
 
 # writing and reading prevents baseballr message
-# write_csv(end_games, "data/end_games.csv")
+write_csv(end_games, "data/end_games.csv")
 end_games = read_csv("data/end_games.csv", show_col_types = F)
 ```
 
@@ -533,6 +533,29 @@ all_results |>
 ```
 
 
+```{r}
+all_res_npr = end_with_npr |>
+  select(date, game_pk, team = home_team, opp = away_team, off_npr = home_off_npr, def_npr = home_def_npr) |>
+  bind_rows(
+    end_with_npr |>
+      select(date, game_pk, team = away_team, opp = home_team, off_npr = away_off_npr, def_npr = away_def_npr)
+  ) |>
+  arrange(team, date, game_pk)
+
+all_res_npr |>
+  mutate(game_num = row_number(),
+         roll_off = rollapply(off_npr, FUN = "sum", width = window_size, align = "right", partial = T),
+         roll_def = rollapply(def_npr, FUN = "sum", width = window_size, align = "right", partial = T),
+         roll_npr = roll_off + roll_def,
+         .by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, roll_npr)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  scale_color_identity() +
+  facet_wrap(vars(division)) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5)
+```
 
 
 
