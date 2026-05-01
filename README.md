@@ -143,8 +143,8 @@ all_res_npr = end_with_npr |>
 
 all_res_npr |>
   mutate(game_num = row_number(),
-         roll_off = rollapply(off_npr, FUN = "sum", width = window_size, align = "right", partial = T),
-         roll_def = rollapply(def_npr, FUN = "sum", width = window_size, align = "right", partial = T),
+         roll_off = rollapply(off_npr, FUN = "mean", width = window_size, align = "right", partial = T),
+         roll_def = rollapply(def_npr, FUN = "mean", width = window_size, align = "right", partial = T),
          roll_npr = roll_off + roll_def,
          .by = "team") |>
   inner_join(teams_info, by = "team") |>
