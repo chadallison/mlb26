@@ -157,3 +157,65 @@ all_res_npr |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+all_results |>
+  mutate(diff = abs(score - opp_score),
+         real_diff = score - opp_score,
+         log_diff = log(diff + 1),
+         adj_diff = ifelse(score > opp_score, log_diff, -1 * log_diff)) |>
+  group_by(team) |>
+  summarise(adj_diff = mean(adj_diff),
+            real_diff = mean(real_diff)) |>
+  arrange(desc(adj_diff)) |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(real_diff, adj_diff)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  scale_color_identity() +
+  geom_line(
+    stat = "smooth",
+    formula = y ~ x,
+    method = "lm",
+    linetype = "dashed",
+    alpha = 0.5
+  ) +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3, max.overlaps = 30) +
+  scale_x_continuous(breaks = seq(-5, 5, by = 0.25)) +
+  scale_y_continuous(breaks = seq(-5, 5, by = 0.25)) +
+  labs(x = "True Run Differential",
+       y = "Adjusted Run Differential",
+       title = glue("True vs. Adjusted Run Differentials as of {today_nice}"))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+all_results |>
+  mutate(adj_diff = ifelse(
+    score > opp_score,
+    log(abs(score - opp_score) + 1),
+    -1 * log(abs(score - opp_score) + 1)
+  )) |>
+  mutate(game_num = row_number(),
+         games_played = n(),
+         last_seven = ifelse(game_num > n() - 7, T, F),
+         .by = "team") |>
+  group_by(team) |>
+  filter(last_seven) |>
+  summarise(adj_diff = sum(adj_diff))
+```
+
+    ## # A tibble: 30 × 2
+    ##    team                 adj_diff
+    ##    <chr>                   <dbl>
+    ##  1 Arizona Diamondbacks   -4.54 
+    ##  2 Athletics              -2.20 
+    ##  3 Atlanta Braves          4.21 
+    ##  4 Baltimore Orioles      -6.28 
+    ##  5 Boston Red Sox          1.97 
+    ##  6 Chicago Cubs           -0.965
+    ##  7 Chicago White Sox       4.25 
+    ##  8 Cincinnati Reds        -3.90 
+    ##  9 Cleveland Guardians     1.10 
+    ## 10 Colorado Rockies       -1.22 
+    ## # ℹ 20 more rows
