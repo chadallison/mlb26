@@ -208,14 +208,27 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks   -4.54 
-    ##  2 Athletics              -2.20 
-    ##  3 Atlanta Braves          4.21 
-    ##  4 Baltimore Orioles      -6.28 
-    ##  5 Boston Red Sox          1.97 
-    ##  6 Chicago Cubs           -0.965
-    ##  7 Chicago White Sox       4.25 
-    ##  8 Cincinnati Reds        -3.90 
-    ##  9 Cleveland Guardians     1.10 
-    ## 10 Colorado Rockies       -1.22 
+    ##  1 Arizona Diamondbacks   -5.05 
+    ##  2 Athletics               0.442
+    ##  3 Atlanta Braves          7.39 
+    ##  4 Baltimore Orioles      -5.65 
+    ##  5 Boston Red Sox         -1.96 
+    ##  6 Chicago Cubs            2.84 
+    ##  7 Chicago White Sox       4.94 
+    ##  8 Cincinnati Reds        -6.67 
+    ##  9 Cleveland Guardians     0.251
+    ## 10 Colorado Rockies       -4.11 
     ## # ℹ 20 more rows
+
+``` r
+end_games |>
+  mutate(diff = abs(win_score - lose_score)) |>
+  summarise(avg_diff = mean(diff),
+            sd_diff = sd(diff),
+            max_diff = ceiling(mean(diff) + sd(diff)))
+```
+
+    ## # A tibble: 1 × 3
+    ##   avg_diff sd_diff max_diff
+    ##      <dbl>   <dbl>    <dbl>
+    ## 1     3.53    2.54        7

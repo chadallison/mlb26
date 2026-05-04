@@ -607,6 +607,13 @@ all_results |>
 ```
 
 
+```{r}
+end_games |>
+  mutate(diff = abs(win_score - lose_score)) |>
+  summarise(avg_diff = mean(diff),
+            sd_diff = sd(diff),
+            max_diff = ceiling(mean(diff) + sd(diff)))
+```
 
 
 
