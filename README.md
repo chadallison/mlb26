@@ -208,27 +208,55 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks   -5.05 
-    ##  2 Athletics               0.442
-    ##  3 Atlanta Braves          7.39 
-    ##  4 Baltimore Orioles      -5.65 
-    ##  5 Boston Red Sox         -1.96 
-    ##  6 Chicago Cubs            2.84 
-    ##  7 Chicago White Sox       4.94 
-    ##  8 Cincinnati Reds        -6.67 
-    ##  9 Cleveland Guardians     0.251
-    ## 10 Colorado Rockies       -4.11 
+    ##  1 Arizona Diamondbacks   -4.54 
+    ##  2 Athletics              -2.45 
+    ##  3 Atlanta Braves          4.39 
+    ##  4 Baltimore Orioles      -7.03 
+    ##  5 Boston Red Sox         -2.08 
+    ##  6 Chicago Cubs            7.27 
+    ##  7 Chicago White Sox       6.19 
+    ##  8 Cincinnati Reds        -8.06 
+    ##  9 Cleveland Guardians    -0.665
+    ## 10 Colorado Rockies       -6.59 
     ## # ℹ 20 more rows
 
 ``` r
-end_games |>
+max_diff = end_games |>
   mutate(diff = abs(win_score - lose_score)) |>
   summarise(avg_diff = mean(diff),
             sd_diff = sd(diff),
-            max_diff = ceiling(mean(diff) + sd(diff)))
+            max_diff = round(mean(diff) + sd(diff), 0)) |>
+  pull(max_diff)
+
+all_results |>
+  mutate(diff = score - opp_score,
+         diff = ifelse(diff > max_diff, max_diff, diff)) |>
+  arrange(team, date, game_pk) |>
+  mutate(game_num = row_number(),
+         cum_adj_diff = cumsum(diff),
+         .by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  inner_join(team_divisons, by = "team") |>
+  ggplot(aes(game_num, cum_adj_diff)) +
+  geom_line(aes(col = hex), linewidth = 1.25) +
+  geom_text_repel(
+    data = ~ slice_max(.x, game_num, by = team),
+    aes(label = abb, col = hex),
+    nudge_x = 2,
+    direction = "y",
+    hjust = 0,
+    size = 3,
+    segment.size = 0,
+    min.segment.length = 100
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.25) +
+  scale_color_identity() +
+  facet_wrap(vars(division)) +
+  coord_cartesian(clip = "off") +
+  theme(plot.margin = margin(5, 30, 5, 5)) +
+  labs(x = "Game number",
+       y = "Cumulative run differential",
+       title = glue("Cumulative run differentials (blowout-adjusted) by team as of {today_nice}"))
 ```
 
-    ## # A tibble: 1 × 3
-    ##   avg_diff sd_diff max_diff
-    ##      <dbl>   <dbl>    <dbl>
-    ## 1     3.53    2.54        7
+![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
