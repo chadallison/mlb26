@@ -208,15 +208,15 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks   -4.54 
+    ##  1 Arizona Diamondbacks   -2.75 
     ##  2 Athletics              -2.45 
-    ##  3 Atlanta Braves          4.39 
-    ##  4 Baltimore Orioles      -7.03 
-    ##  5 Boston Red Sox         -2.08 
-    ##  6 Chicago Cubs            7.27 
-    ##  7 Chicago White Sox       6.19 
-    ##  8 Cincinnati Reds        -8.06 
-    ##  9 Cleveland Guardians    -0.665
+    ##  3 Atlanta Braves          2.60 
+    ##  4 Baltimore Orioles      -7.73 
+    ##  5 Boston Red Sox          0.916
+    ##  6 Chicago Cubs            6.17 
+    ##  7 Chicago White Sox       2.86 
+    ##  8 Cincinnati Reds        -6.27 
+    ##  9 Cleveland Guardians     1.13 
     ## 10 Colorado Rockies       -6.59 
     ## # ℹ 20 more rows
 
