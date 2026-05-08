@@ -208,16 +208,16 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks   -2.75 
-    ##  2 Athletics              -2.45 
-    ##  3 Atlanta Braves          2.60 
-    ##  4 Baltimore Orioles      -7.73 
-    ##  5 Boston Red Sox          0.916
-    ##  6 Chicago Cubs            6.17 
-    ##  7 Chicago White Sox       2.86 
-    ##  8 Cincinnati Reds        -6.27 
-    ##  9 Cleveland Guardians     1.13 
-    ## 10 Colorado Rockies       -6.59 
+    ##  1 Arizona Diamondbacks    -5.46
+    ##  2 Athletics               -1.35
+    ##  3 Atlanta Braves           2.60
+    ##  4 Baltimore Orioles       -6.47
+    ##  5 Boston Red Sox           1.39
+    ##  6 Chicago Cubs             7.27
+    ##  7 Chicago White Sox        2.86
+    ##  8 Cincinnati Reds         -9.16
+    ##  9 Cleveland Guardians      1.41
+    ## 10 Colorado Rockies        -7.47
     ## # ℹ 20 more rows
 
 ``` r
@@ -260,3 +260,35 @@ all_results |>
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+``` r
+wins = end_games |>
+  filter(win_score - lose_score > 1) |>
+  count(team = win_team, name = "wins")
+
+losses = end_games |>
+  filter(win_score - lose_score > 1) |>
+  count(team = lose_team, name = "losses")
+
+full_join(x = wins, y = losses, by = "team") |>
+  mutate(wins = coalesce(wins, 0),
+         losses = coalesce(losses, 0),
+         gp = wins + losses,
+         win_pct = wins / gp) |>
+  arrange(desc(win_pct))
+```
+
+    ## # A tibble: 30 × 5
+    ##    team                 wins losses    gp win_pct
+    ##    <chr>               <dbl>  <dbl> <dbl>   <dbl>
+    ##  1 New York Yankees       23      6    29   0.793
+    ##  2 Atlanta Braves         23      9    32   0.719
+    ##  3 Los Angeles Dodgers    18      8    26   0.692
+    ##  4 Chicago Cubs           17     10    27   0.630
+    ##  5 San Diego Padres       17     11    28   0.607
+    ##  6 Tampa Bay Rays         17     11    28   0.607
+    ##  7 Milwaukee Brewers      17     12    29   0.586
+    ##  8 Pittsburgh Pirates     15     12    27   0.556
+    ##  9 St. Louis Cardinals    14     12    26   0.538
+    ## 10 Cleveland Guardians    17     15    32   0.531
+    ## # ℹ 20 more rows

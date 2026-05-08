@@ -649,6 +649,22 @@ all_results |>
 
 
 
+```{r}
+wins = end_games |>
+  filter(win_score - lose_score > 1) |>
+  count(team = win_team, name = "wins")
+
+losses = end_games |>
+  filter(win_score - lose_score > 1) |>
+  count(team = lose_team, name = "losses")
+
+full_join(x = wins, y = losses, by = "team") |>
+  mutate(wins = coalesce(wins, 0),
+         losses = coalesce(losses, 0),
+         gp = wins + losses,
+         win_pct = wins / gp) |>
+  arrange(desc(win_pct))
+```
 
 
 
