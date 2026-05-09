@@ -208,16 +208,16 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks    -5.46
-    ##  2 Athletics               -1.35
-    ##  3 Atlanta Braves           2.60
-    ##  4 Baltimore Orioles       -6.47
-    ##  5 Boston Red Sox           1.39
-    ##  6 Chicago Cubs             7.27
-    ##  7 Chicago White Sox        2.86
-    ##  8 Cincinnati Reds         -9.16
-    ##  9 Cleveland Guardians      1.41
-    ## 10 Colorado Rockies        -7.47
+    ##  1 Arizona Diamondbacks   -3.99 
+    ##  2 Athletics              -2.04 
+    ##  3 Atlanta Braves          2.89 
+    ##  4 Baltimore Orioles      -5.38 
+    ##  5 Boston Red Sox          1.39 
+    ##  6 Chicago Cubs            8.53 
+    ##  7 Chicago White Sox       0.560
+    ##  8 Cincinnati Reds        -9.36 
+    ##  9 Cleveland Guardians     1.13 
+    ## 10 Colorado Rockies       -5.27 
     ## # ℹ 20 more rows
 
 ``` r
@@ -281,14 +281,14 @@ full_join(x = wins, y = losses, by = "team") |>
     ## # A tibble: 30 × 5
     ##    team                 wins losses    gp win_pct
     ##    <chr>               <dbl>  <dbl> <dbl>   <dbl>
-    ##  1 New York Yankees       23      6    29   0.793
-    ##  2 Atlanta Braves         23      9    32   0.719
-    ##  3 Los Angeles Dodgers    18      8    26   0.692
-    ##  4 Chicago Cubs           17     10    27   0.630
-    ##  5 San Diego Padres       17     11    28   0.607
-    ##  6 Tampa Bay Rays         17     11    28   0.607
-    ##  7 Milwaukee Brewers      17     12    29   0.586
-    ##  8 Pittsburgh Pirates     15     12    27   0.556
-    ##  9 St. Louis Cardinals    14     12    26   0.538
-    ## 10 Cleveland Guardians    17     15    32   0.531
+    ##  1 New York Yankees       23      7    30   0.767
+    ##  2 Los Angeles Dodgers    19      8    27   0.704
+    ##  3 Atlanta Braves         23     10    33   0.697
+    ##  4 Chicago Cubs           18     10    28   0.643
+    ##  5 Milwaukee Brewers      18     12    30   0.6  
+    ##  6 San Diego Padres       17     12    29   0.586
+    ##  7 Tampa Bay Rays         17     12    29   0.586
+    ##  8 St. Louis Cardinals    15     12    27   0.556
+    ##  9 Cleveland Guardians    18     15    33   0.545
+    ## 10 Seattle Mariners       13     11    24   0.542
     ## # ℹ 20 more rows

@@ -668,6 +668,9 @@ full_join(x = wins, y = losses, by = "team") |>
 
 
 
+```{r}
+all_results
+```
 
 
 
