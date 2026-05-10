@@ -209,15 +209,15 @@ all_results |>
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
     ##  1 Arizona Diamondbacks   -3.99 
-    ##  2 Athletics              -2.04 
+    ##  2 Athletics               0.953
     ##  3 Atlanta Braves          2.89 
-    ##  4 Baltimore Orioles      -5.38 
+    ##  4 Baltimore Orioles      -5.19 
     ##  5 Boston Red Sox          1.39 
     ##  6 Chicago Cubs            8.53 
     ##  7 Chicago White Sox       0.560
-    ##  8 Cincinnati Reds        -9.36 
+    ##  8 Cincinnati Reds        -5.86 
     ##  9 Cleveland Guardians     1.13 
-    ## 10 Colorado Rockies       -5.27 
+    ## 10 Colorado Rockies       -6.12 
     ## # ℹ 20 more rows
 
 ``` r
@@ -292,3 +292,62 @@ full_join(x = wins, y = losses, by = "team") |>
     ##  9 Cleveland Guardians    18     15    33   0.545
     ## 10 Seattle Mariners       13     11    24   0.542
     ## # ℹ 20 more rows
+
+``` r
+records_vs_above_fh = all_results |>
+  inner_join(team_records, by = c("opp" = "team")) |>
+  filter(win_pct >= 0.5) |>
+  group_by(team) |>
+  summarise(gp = n(),
+            wins = sum(is_win),
+            losses = sum(1 - is_win),
+            pct = mean(is_win),
+            record = paste0(sum(is_win), "-", sum(1 - is_win)))
+
+totals = all_results |>
+  group_by(team) |>
+  summarise(total_wins = sum(is_win), total_gp = n())
+
+h2h = all_results |>
+  group_by(team, opp) |>
+  summarise(h2h_wins = sum(is_win), h2h_gp = n(), .groups = "drop")
+
+adj_wp_lookup = h2h |>
+  left_join(
+    h2h |> rename(opp_wins_vs_team = h2h_wins, opp_gp_vs_team = h2h_gp),
+    by = c("opp" = "team", "team" = "opp")
+  ) |>
+  left_join(totals, by = c("opp" = "team")) |>
+  mutate(
+    adj_wins = total_wins - opp_wins_vs_team,
+    adj_gp   = total_gp   - opp_gp_vs_team,
+    adj_pct  = adj_wins / adj_gp
+  ) |>
+  select(team, opp, adj_pct)
+
+adj_wp_vs_fh = all_results |>
+  left_join(adj_wp_lookup, by = c("team", "opp")) |>
+  filter(adj_pct >= 0.5) |>
+  group_by(team) |>
+  summarise(pct = mean(is_win)) |>
+  arrange(desc(pct))
+
+records_vs_above_fh |>
+  rename(true_pct = pct) |>
+  inner_join(adj_wp_vs_fh, by = "team") |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(true_pct, pct)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  scale_color_identity() +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3, max.overlaps = 30) +
+  geom_abline(linetype = "dashed", alpha = 0.25) +
+  geom_vline(xintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
+  labs(x = "True Win Percentage",
+       y = "Win Percentage with Games vs. Self Removed",
+       title = glue("Win Percentage with/without Self Included as of {today_nice}"))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
