@@ -208,15 +208,15 @@ all_results |>
     ## # A tibble: 30 × 2
     ##    team                 adj_diff
     ##    <chr>                   <dbl>
-    ##  1 Arizona Diamondbacks   -3.99 
+    ##  1 Arizona Diamondbacks   -2.60 
     ##  2 Athletics               0.953
-    ##  3 Atlanta Braves          2.89 
+    ##  3 Atlanta Braves          3.58 
     ##  4 Baltimore Orioles      -5.19 
     ##  5 Boston Red Sox          1.39 
-    ##  6 Chicago Cubs            8.53 
-    ##  7 Chicago White Sox       0.560
+    ##  6 Chicago Cubs            5.48 
+    ##  7 Chicago White Sox       0.405
     ##  8 Cincinnati Reds        -5.86 
-    ##  9 Cleveland Guardians     1.13 
+    ##  9 Cleveland Guardians    -1.76 
     ## 10 Colorado Rockies       -6.12 
     ## # ℹ 20 more rows
 
@@ -282,15 +282,15 @@ full_join(x = wins, y = losses, by = "team") |>
     ##    team                 wins losses    gp win_pct
     ##    <chr>               <dbl>  <dbl> <dbl>   <dbl>
     ##  1 New York Yankees       23      7    30   0.767
-    ##  2 Los Angeles Dodgers    19      8    27   0.704
-    ##  3 Atlanta Braves         23     10    33   0.697
-    ##  4 Chicago Cubs           18     10    28   0.643
+    ##  2 Atlanta Braves         24     10    34   0.706
+    ##  3 Los Angeles Dodgers    19      9    28   0.679
+    ##  4 Chicago Cubs           18     11    29   0.621
     ##  5 Milwaukee Brewers      18     12    30   0.6  
-    ##  6 San Diego Padres       17     12    29   0.586
+    ##  6 San Diego Padres       18     12    30   0.6  
     ##  7 Tampa Bay Rays         17     12    29   0.586
-    ##  8 St. Louis Cardinals    15     12    27   0.556
+    ##  8 Pittsburgh Pirates     16     13    29   0.552
     ##  9 Cleveland Guardians    18     15    33   0.545
-    ## 10 Seattle Mariners       13     11    24   0.542
+    ## 10 St. Louis Cardinals    15     13    28   0.536
     ## # ℹ 20 more rows
 
 ``` r
