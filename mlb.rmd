@@ -494,74 +494,6 @@ all_results |>
 ___
 
 ```{r}
-window_size = 7
-
-all_results |>
-  arrange(team, date, game_pk) |>
-  mutate(roll_score = rollapply(score, width = window_size, align = "right", FUN = "sum", fill = NA),
-         roll_allow = rollapply(opp_score, width = window_size, align = "right", FUN = "sum", fill = NA),
-         .by = "team") |>
-  filter(!is.na(roll_score)) |>
-  mutate(game_num = row_number(), .by = "team") |>
-  mutate(roll_py = roll_score ^ 2 / (roll_score ^ 2 + roll_allow ^ 2)) |>
-  inner_join(teams_info, by = "team") |>
-  inner_join(team_divisons, by = "team") |>
-  ggplot(aes(game_num, roll_py)) +
-  geom_line(aes(col = hex), linewidth = 1.25) +
-  scale_color_identity() +
-  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
-  facet_wrap(vars(division))
-```
-
-
-```{r}
-window_size = 7
-
-all_results |>
-  arrange(team, date, game_pk) |>
-  mutate(diff_sr = sqrt(score) - sqrt(opp_score)) |>
-  mutate(game_num = row_number(),
-         roll_diff = rollapply(diff_sr, FUN = "sum", width = window_size, align = "right", partial = T),
-         .by = "team") |>
-  inner_join(teams_info, by = "team") |>
-  inner_join(team_divisons, by = "team") |>
-  ggplot(aes(game_num, roll_diff)) +
-  geom_line(aes(col = hex), linewidth = 1.25) +
-  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.25) +
-  scale_color_identity() +
-  facet_wrap(vars(division))
-```
-
-
-```{r}
-all_res_npr = end_with_npr |>
-  select(date, game_pk, team = home_team, opp = away_team, off_npr = home_off_npr, def_npr = home_def_npr) |>
-  bind_rows(
-    end_with_npr |>
-      select(date, game_pk, team = away_team, opp = home_team, off_npr = away_off_npr, def_npr = away_def_npr)
-  ) |>
-  arrange(team, date, game_pk)
-
-all_res_npr |>
-  mutate(game_num = row_number(),
-         roll_off = rollapply(off_npr, FUN = "mean", width = window_size, align = "right", partial = T),
-         roll_def = rollapply(def_npr, FUN = "mean", width = window_size, align = "right", partial = T),
-         roll_npr = roll_off + roll_def,
-         .by = "team") |>
-  inner_join(teams_info, by = "team") |>
-  inner_join(team_divisons, by = "team") |>
-  ggplot(aes(game_num, roll_npr)) +
-  geom_line(aes(col = hex), linewidth = 1.25) +
-  scale_color_identity() +
-  facet_wrap(vars(division)) +
-  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5)
-```
-
-
-
-
-
-```{r}
 all_results |>
   mutate(diff = abs(score - opp_score),
          real_diff = score - opp_score,
@@ -590,22 +522,6 @@ all_results |>
        title = glue("True vs. Adjusted Run Differentials as of {today_nice}"))
 ```
 
-```{r}
-all_results |>
-  mutate(adj_diff = ifelse(
-    score > opp_score,
-    log(abs(score - opp_score) + 1),
-    -1 * log(abs(score - opp_score) + 1)
-  )) |>
-  mutate(game_num = row_number(),
-         games_played = n(),
-         last_seven = ifelse(game_num > n() - 7, T, F),
-         .by = "team") |>
-  group_by(team) |>
-  filter(last_seven) |>
-  summarise(adj_diff = sum(adj_diff))
-```
-
 
 ```{r}
 max_diff = end_games |>
@@ -616,6 +532,7 @@ max_diff = end_games |>
   pull(max_diff)
 
 all_results |>
+  filter(date >= Sys.Date() - 30) |>
   mutate(diff = score - opp_score,
          diff = ifelse(diff > max_diff, max_diff, diff)) |>
   arrange(team, date, game_pk) |>
@@ -640,31 +557,15 @@ all_results |>
   scale_color_identity() +
   facet_wrap(vars(division)) +
   coord_cartesian(clip = "off") +
-  theme(plot.margin = margin(5, 30, 5, 5)) +
   labs(x = "Game number",
        y = "Cumulative run differential",
-       title = glue("Cumulative run differentials (blowout-adjusted) by team as of {today_nice}"))
+       title = glue("Cumulative run differentials (blowout-adj.) by team as of {today_nice}"))
 ```
 
 
 
 
-```{r}
-wins = end_games |>
-  filter(win_score - lose_score > 1) |>
-  count(team = win_team, name = "wins")
 
-losses = end_games |>
-  filter(win_score - lose_score > 1) |>
-  count(team = lose_team, name = "losses")
-
-full_join(x = wins, y = losses, by = "team") |>
-  mutate(wins = coalesce(wins, 0),
-         losses = coalesce(losses, 0),
-         gp = wins + losses,
-         win_pct = wins / gp) |>
-  arrange(desc(win_pct))
-```
 
 
 
@@ -720,9 +621,9 @@ records_vs_above_fh |>
   geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
   scale_x_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
   scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = scales::percent) +
-  labs(x = "True Win Percentage",
-       y = "Win Percentage with Games vs. Self Removed",
-       title = glue("Win Percentage with/without Self Included as of {today_nice}"))
+  labs(x = "True Win Pct. vs. .500+ Teams",
+       y = "Win Pct. vs. .500+ Teams w/ Games vs. Self Removed",
+       title = glue("Win Percentage vs. .500+ Teams with/without Self Included as of {today_nice}"))
 ```
 
 
