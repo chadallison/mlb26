@@ -21,6 +21,9 @@ ___
 - [Cumulative Run Differentials]
 - [Win Percentage by Run Differential]
 - [One Run Games]
+- [True vs Adjusted Run Differentials]
+- [Blowout-Adjusted Cumulative Run Differentials]
+- [Records vs Winning Record Teams]
 
 ___
 
@@ -493,7 +496,9 @@ all_results |>
 
 ___
 
-```{r}
+### True vs Adjusted Run Differentials
+
+```{r echo = F}
 all_results |>
   mutate(diff = abs(score - opp_score),
          real_diff = score - opp_score,
@@ -522,8 +527,11 @@ all_results |>
        title = glue("True vs. Adjusted Run Differentials as of {today_nice}"))
 ```
 
+___
 
-```{r}
+### Blowout-Adjusted Cumulative Run Differentials
+
+```{r echo = F}
 max_diff = end_games |>
   mutate(diff = abs(win_score - lose_score)) |>
   summarise(avg_diff = mean(diff),
@@ -562,14 +570,11 @@ all_results |>
        title = glue("Cumulative run differentials (blowout-adj.) by team as of {today_nice}"))
 ```
 
+___
 
+### Records vs Winning Record Teams
 
-
-
-
-
-
-```{r}
+```{r echo = F}
 records_vs_above_fh = all_results |>
   inner_join(team_records, by = c("opp" = "team")) |>
   filter(win_pct >= 0.5) |>
@@ -625,6 +630,8 @@ records_vs_above_fh |>
        y = "Win Pct. vs. .500+ Teams w/ Games vs. Self Removed",
        title = glue("Win Percentage vs. .500+ Teams with/without Self Included as of {today_nice}"))
 ```
+
+___
 
 
 
