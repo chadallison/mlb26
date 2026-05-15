@@ -641,7 +641,7 @@ all_results |>
   slice_max(cnt, n = 1, with_ties = T) |>
   summarise(cnt = first(cnt), team = paste(team, collapse = ", ")) |>
   mutate(clean_diff = ifelse(diff > 0, paste0(diff, "-run victory"), paste0(abs(diff), "-run defeat")),
-         str = paste0(clean_diff, ": ", team)) |>
+         str = paste0(clean_diff, ": ", team, " (", cnt, ")")) |>
   distinct(str) |>
   pull(str)
 ```
