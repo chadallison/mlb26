@@ -126,35 +126,48 @@ all_results |>
   pull(str)
 ```
 
-    ##  [1] "16-run defeat: Baltimore Orioles (1)"                                                                                                                                
-    ##  [2] "15-run defeat: Arizona Diamondbacks (1)"                                                                                                                             
-    ##  [3] "14-run defeat: Washington Nationals (1)"                                                                                                                             
-    ##  [4] "13-run defeat: Los Angeles Angels, Minnesota Twins (1)"                                                                                                              
-    ##  [5] "12-run defeat: Arizona Diamondbacks, Chicago White Sox, Cleveland Guardians, New York Mets, Toronto Blue Jays (1)"                                                   
-    ##  [6] "11-run defeat: Philadelphia Phillies (2)"                                                                                                                            
-    ##  [7] "10-run defeat: Cincinnati Reds (2)"                                                                                                                                  
-    ##  [8] "9-run defeat: Colorado Rockies, Philadelphia Phillies (2)"                                                                                                           
-    ##  [9] "8-run defeat: Houston Astros, Washington Nationals (3)"                                                                                                              
-    ## [10] "7-run defeat: Boston Red Sox (5)"                                                                                                                                    
-    ## [11] "6-run defeat: San Diego Padres (6)"                                                                                                                                  
-    ## [12] "5-run defeat: Houston Astros, Washington Nationals (6)"                                                                                                              
-    ## [13] "4-run defeat: Minnesota Twins, San Francisco Giants (5)"                                                                                                             
-    ## [14] "3-run defeat: Toronto Blue Jays (7)"                                                                                                                                 
-    ## [15] "2-run defeat: Houston Astros (8)"                                                                                                                                    
-    ## [16] "1-run defeat: Seattle Mariners (11)"                                                                                                                                 
-    ## [17] "1-run victory: Chicago Cubs, Philadelphia Phillies, St. Louis Cardinals, Tampa Bay Rays (9)"                                                                         
-    ## [18] "2-run victory: Baltimore Orioles, Cleveland Guardians (9)"                                                                                                           
-    ## [19] "3-run victory: Texas Rangers (8)"                                                                                                                                    
-    ## [20] "4-run victory: Tampa Bay Rays (5)"                                                                                                                                   
-    ## [21] "5-run victory: Atlanta Braves (6)"                                                                                                                                   
-    ## [22] "6-run victory: Los Angeles Dodgers, Minnesota Twins (4)"                                                                                                             
-    ## [23] "7-run victory: Baltimore Orioles, Houston Astros, New York Yankees (3)"                                                                                              
-    ## [24] "8-run victory: Chicago Cubs, Cleveland Guardians, Los Angeles Angels, Minnesota Twins, New York Mets, New York Yankees, Seattle Mariners (2)"                        
-    ## [25] "9-run victory: Arizona Diamondbacks, Atlanta Braves, Chicago Cubs, Colorado Rockies, Los Angeles Dodgers, New York Mets, New York Yankees, Philadelphia Phillies (1)"
-    ## [26] "10-run victory: Pittsburgh Pirates (2)"                                                                                                                              
-    ## [27] "11-run victory: Athletics, Colorado Rockies, Houston Astros, Kansas City Royals, Milwaukee Brewers, New York Yankees, Pittsburgh Pirates, Washington Nationals (1)"  
-    ## [28] "12-run victory: Milwaukee Brewers (2)"                                                                                                                               
-    ## [29] "13-run victory: Toronto Blue Jays, Washington Nationals (1)"                                                                                                         
-    ## [30] "14-run victory: Cincinnati Reds (1)"                                                                                                                                 
-    ## [31] "15-run victory: Atlanta Braves (1)"                                                                                                                                  
+    ##  [1] "16-run defeat: Baltimore Orioles (1)"                                                                                                                              
+    ##  [2] "15-run defeat: Arizona Diamondbacks (1)"                                                                                                                           
+    ##  [3] "14-run defeat: Washington Nationals (1)"                                                                                                                           
+    ##  [4] "13-run defeat: Los Angeles Angels (2)"                                                                                                                             
+    ##  [5] "12-run defeat: Arizona Diamondbacks, Atlanta Braves, Chicago White Sox, Cleveland Guardians, New York Mets, Toronto Blue Jays (1)"                                 
+    ##  [6] "11-run defeat: Philadelphia Phillies (2)"                                                                                                                          
+    ##  [7] "10-run defeat: Baltimore Orioles, Cincinnati Reds, San Francisco Giants (2)"                                                                                       
+    ##  [8] "9-run defeat: Colorado Rockies, Philadelphia Phillies (2)"                                                                                                         
+    ##  [9] "8-run defeat: Houston Astros (4)"                                                                                                                                  
+    ## [10] "7-run defeat: Boston Red Sox (6)"                                                                                                                                  
+    ## [11] "6-run defeat: San Diego Padres (6)"                                                                                                                                
+    ## [12] "5-run defeat: Houston Astros, Washington Nationals (6)"                                                                                                            
+    ## [13] "4-run defeat: Minnesota Twins, San Francisco Giants (5)"                                                                                                           
+    ## [14] "3-run defeat: Miami Marlins, San Francisco Giants, Toronto Blue Jays (7)"                                                                                          
+    ## [15] "2-run defeat: Houston Astros (8)"                                                                                                                                  
+    ## [16] "1-run defeat: Seattle Mariners (11)"                                                                                                                               
+    ## [17] "1-run victory: Philadelphia Phillies, St. Louis Cardinals (10)"                                                                                                    
+    ## [18] "2-run victory: Baltimore Orioles, Cleveland Guardians, St. Louis Cardinals (9)"                                                                                    
+    ## [19] "3-run victory: Texas Rangers (8)"                                                                                                                                  
+    ## [20] "4-run victory: Tampa Bay Rays (5)"                                                                                                                                 
+    ## [21] "5-run victory: Atlanta Braves (6)"                                                                                                                                 
+    ## [22] "6-run victory: Los Angeles Dodgers, Philadelphia Phillies (5)"                                                                                                     
+    ## [23] "7-run victory: Baltimore Orioles, Houston Astros, New York Yankees (3)"                                                                                            
+    ## [24] "8-run victory: Chicago Cubs, Cleveland Guardians, Los Angeles Angels, Minnesota Twins, New York Mets, New York Yankees, Seattle Mariners (2)"                      
+    ## [25] "9-run victory: Los Angeles Dodgers, New York Mets (2)"                                                                                                             
+    ## [26] "10-run victory: Pittsburgh Pirates (2)"                                                                                                                            
+    ## [27] "11-run victory: Athletics, Colorado Rockies, Houston Astros, Kansas City Royals, Milwaukee Brewers, New York Yankees, Pittsburgh Pirates, Washington Nationals (1)"
+    ## [28] "12-run victory: Milwaukee Brewers (2)"                                                                                                                             
+    ## [29] "13-run victory: Los Angeles Dodgers, Toronto Blue Jays, Washington Nationals (1)"                                                                                  
+    ## [30] "14-run victory: Cincinnati Reds (1)"                                                                                                                               
+    ## [31] "15-run victory: Atlanta Braves (1)"                                                                                                                                
     ## [32] "16-run victory: Boston Red Sox (1)"
+
+------------------------------------------------------------------------
+
+### True vs Adjusted Strength of Schedule
+
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+*Adjusted strength of schedule removes a team from its opponent’s pool
+of games. For example, when calculating the Cubs’ adjusted SOS, it is
+the average win percentage of their opponents with all games against the
+Cubs removed.*
+
+------------------------------------------------------------------------

@@ -601,8 +601,8 @@ adj_wp_lookup = h2h |>
   left_join(totals, by = c("opp" = "team")) |>
   mutate(
     adj_wins = total_wins - opp_wins_vs_team,
-    adj_gp   = total_gp   - opp_gp_vs_team,
-    adj_pct  = adj_wins / adj_gp
+    adj_gp = total_gp - opp_gp_vs_team,
+    adj_pct = adj_wins / adj_gp
   ) |>
   select(team, opp, adj_pct)
 
@@ -646,6 +646,36 @@ all_results |>
   pull(str)
 ```
 
+___
+
+### True vs Adjusted Strength of Schedule
+
+```{r echo = F}
+all_results |>
+  inner_join(select(team_records, team, win_pct), by = c("opp" = "team")) |>
+  inner_join(adj_wp_lookup, by = c("team", "opp")) |>
+  group_by(team) |>
+  summarise(adj_sos = mean(adj_pct),
+            true_sos = mean(win_pct)) |>
+  mutate(diff = adj_sos - true_sos) |>
+  inner_join(teams_info, by = "team") |>
+  ggplot(aes(true_sos, adj_sos)) +
+  geom_point(aes(col = hex), shape = "square", size = 4) +
+  scale_color_identity() +
+  geom_abline(linetype = "dashed", alpha = 0.5) +
+  ggrepel::geom_text_repel(aes(label = abb), size = 3) +
+  geom_vline(xintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.01), labels = scales::percent) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.01), labels = scales::percent) +
+  labs(x = "True Strength of Schedule",
+       y = "Adjusted Strength of Schedule",
+       title = glue("True vs. Adjusted Strength of Schedule as of {today_nice}"))
+```
+
+*Adjusted strength of schedule removes a team from its opponent's pool of games. For example, when calculating the Cubs' adjusted SOS, it is the average win percentage of their opponents with all games against the Cubs removed.*
+
+___
 
 
 
