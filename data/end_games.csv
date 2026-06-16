@@ -1022,3 +1022,57 @@ date,game_pk,away_score,away_team,home_team,home_score,win_team,lose_team,win_sc
 2026-06-11,824346,9,Chicago Cubs,Colorado Rockies,3,Chicago Cubs,Colorado Rockies,9,3
 2026-06-11,823371,8,Los Angeles Dodgers,Pittsburgh Pirates,6,Los Angeles Dodgers,Pittsburgh Pirates,8,6
 2026-06-11,824827,5,Seattle Mariners,Baltimore Orioles,7,Baltimore Orioles,Seattle Mariners,7,5
+2026-06-12,823370,8,Miami Marlins,Pittsburgh Pirates,3,Miami Marlins,Pittsburgh Pirates,8,3
+2026-06-12,822726,10,Seattle Mariners,Washington Nationals,2,Seattle Mariners,Washington Nationals,10,2
+2026-06-12,824826,3,San Diego Padres,Baltimore Orioles,7,Baltimore Orioles,San Diego Padres,7,3
+2026-06-12,824425,2,Detroit Tigers,Cleveland Guardians,3,Cleveland Guardians,Detroit Tigers,3,2
+2026-06-12,824752,1,Texas Rangers,Boston Red Sox,10,Boston Red Sox,Texas Rangers,10,1
+2026-06-12,824507,5,Arizona Diamondbacks,Cincinnati Reds,2,Arizona Diamondbacks,Cincinnati Reds,5,2
+2026-06-12,823617,5,Atlanta Braves,New York Mets,7,New York Mets,Atlanta Braves,7,5
+2026-06-12,822803,5,New York Yankees,Toronto Blue Jays,8,Toronto Blue Jays,New York Yankees,8,5
+2026-06-12,824588,2,Los Angeles Dodgers,Chicago White Sox,8,Chicago White Sox,Los Angeles Dodgers,8,2
+2026-06-12,823778,0,Philadelphia Phillies,Milwaukee Brewers,6,Milwaukee Brewers,Philadelphia Phillies,6,0
+2026-06-12,824102,10,Houston Astros,Kansas City Royals,8,Houston Astros,Kansas City Royals,10,8
+2026-06-12,823695,8,St. Louis Cardinals,Minnesota Twins,9,Minnesota Twins,St. Louis Cardinals,9,8
+2026-06-12,824020,3,Tampa Bay Rays,Los Angeles Angels,4,Los Angeles Angels,Tampa Bay Rays,4,3
+2026-06-12,824997,4,Colorado Rockies,Athletics,6,Athletics,Colorado Rockies,6,4
+2026-06-12,823211,5,Chicago Cubs,San Francisco Giants,1,Chicago Cubs,San Francisco Giants,5,1
+2026-06-13,823694,9,St. Louis Cardinals,Minnesota Twins,6,St. Louis Cardinals,Minnesota Twins,9,6
+2026-06-13,822802,3,New York Yankees,Toronto Blue Jays,1,New York Yankees,Toronto Blue Jays,3,1
+2026-06-13,824828,9,San Diego Padres,Baltimore Orioles,3,San Diego Padres,Baltimore Orioles,9,3
+2026-06-13,822725,3,Seattle Mariners,Washington Nationals,8,Washington Nationals,Seattle Mariners,8,3
+2026-06-13,823369,2,Miami Marlins,Pittsburgh Pirates,3,Pittsburgh Pirates,Miami Marlins,3,2
+2026-06-13,824508,1,Arizona Diamondbacks,Cincinnati Reds,2,Cincinnati Reds,Arizona Diamondbacks,2,1
+2026-06-13,824426,1,Detroit Tigers,Cleveland Guardians,3,Cleveland Guardians,Detroit Tigers,3,1
+2026-06-13,824749,3,Texas Rangers,Boston Red Sox,6,Boston Red Sox,Texas Rangers,6,3
+2026-06-13,823616,3,Atlanta Braves,New York Mets,1,Atlanta Braves,New York Mets,3,1
+2026-06-13,824587,7,Los Angeles Dodgers,Chicago White Sox,1,Los Angeles Dodgers,Chicago White Sox,7,1
+2026-06-13,824100,8,Houston Astros,Kansas City Royals,7,Houston Astros,Kansas City Royals,8,7
+2026-06-13,823776,9,Philadelphia Phillies,Milwaukee Brewers,8,Philadelphia Phillies,Milwaukee Brewers,9,8
+2026-06-13,824995,5,Colorado Rockies,Athletics,7,Athletics,Colorado Rockies,7,5
+2026-06-13,823213,6,Chicago Cubs,San Francisco Giants,1,Chicago Cubs,San Francisco Giants,6,1
+2026-06-13,824019,0,Tampa Bay Rays,Los Angeles Angels,8,Los Angeles Angels,Tampa Bay Rays,8,0
+2026-06-14,823368,4,Miami Marlins,Pittsburgh Pirates,2,Miami Marlins,Pittsburgh Pirates,4,2
+2026-06-14,824823,5,San Diego Padres,Baltimore Orioles,2,San Diego Padres,Baltimore Orioles,5,2
+2026-06-14,822722,1,Seattle Mariners,Washington Nationals,10,Washington Nationals,Seattle Mariners,10,1
+2026-06-14,822801,8,New York Yankees,Toronto Blue Jays,3,New York Yankees,Toronto Blue Jays,8,3
+2026-06-14,824506,5,Arizona Diamondbacks,Cincinnati Reds,3,Arizona Diamondbacks,Cincinnati Reds,5,3
+2026-06-14,823615,1,Atlanta Braves,New York Mets,8,New York Mets,Atlanta Braves,8,1
+2026-06-14,824099,0,Houston Astros,Kansas City Royals,4,Kansas City Royals,Houston Astros,4,0
+2026-06-14,823693,4,St. Louis Cardinals,Minnesota Twins,5,Minnesota Twins,St. Louis Cardinals,5,4
+2026-06-14,824586,4,Los Angeles Dodgers,Chicago White Sox,6,Chicago White Sox,Los Angeles Dodgers,6,4
+2026-06-14,823777,0,Philadelphia Phillies,Milwaukee Brewers,4,Milwaukee Brewers,Philadelphia Phillies,4,0
+2026-06-14,824994,23,Colorado Rockies,Athletics,9,Colorado Rockies,Athletics,23,9
+2026-06-14,823212,1,Chicago Cubs,San Francisco Giants,5,San Francisco Giants,Chicago Cubs,5,1
+2026-06-14,824021,8,Tampa Bay Rays,Los Angeles Angels,3,Tampa Bay Rays,Los Angeles Angels,8,3
+2026-06-14,824751,6,Texas Rangers,Boston Red Sox,4,Texas Rangers,Boston Red Sox,6,4
+2026-06-15,823452,0,Miami Marlins,Philadelphia Phillies,7,Philadelphia Phillies,Miami Marlins,7,0
+2026-06-15,822724,3,Kansas City Royals,Washington Nationals,7,Washington Nationals,Kansas City Royals,7,3
+2026-06-15,824505,0,New York Mets,Cincinnati Reds,12,Cincinnati Reds,New York Mets,12,0
+2026-06-15,823046,0,San Diego Padres,St. Louis Cardinals,3,St. Louis Cardinals,San Diego Padres,3,0
+2026-06-15,824666,4,Colorado Rockies,Chicago Cubs,5,Chicago Cubs,Colorado Rockies,5,4
+2026-06-15,822887,4,Minnesota Twins,Texas Rangers,2,Minnesota Twins,Texas Rangers,4,2
+2026-06-15,824181,9,Detroit Tigers,Houston Astros,3,Detroit Tigers,Houston Astros,9,3
+2026-06-15,825071,3,Los Angeles Angels,Arizona Diamondbacks,4,Arizona Diamondbacks,Los Angeles Angels,4,3
+2026-06-15,824993,2,Pittsburgh Pirates,Athletics,11,Athletics,Pittsburgh Pirates,11,2
+2026-06-15,823938,3,Tampa Bay Rays,Los Angeles Dodgers,4,Los Angeles Dodgers,Tampa Bay Rays,4,3
